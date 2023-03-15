@@ -1,0 +1,6 @@
+// Árbol sintáctico
+digraph {
+	<Lab_A.Nodo.Node object at 0x7fb088209fa0> [label=a]
+	<Lab_A.Nodo.Node object at 0x7fb088209f10> [label="?"]
+	<Lab_A.Nodo.Node object at 0x7fb088209f10> -> <Lab_A.Nodo.Node object at 0x7fb088209fa0>
+}
