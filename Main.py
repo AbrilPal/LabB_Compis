@@ -40,3 +40,7 @@ else:
     afn = construir_AFN_desde_arbol(tree)
     print(afn)
     g = generar_grafo_AFN(afn)
+    g.view()
+    print(obtener_alfabeto(afn))
+
+    # AFD apartir de AFN

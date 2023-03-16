@@ -1,6 +1,22 @@
 // Árbol sintáctico
 digraph {
-	<Lab_A.Nodo.Node object at 0x7fb088209fa0> [label=a]
-	<Lab_A.Nodo.Node object at 0x7fb088209f10> [label="?"]
-	<Lab_A.Nodo.Node object at 0x7fb088209f10> -> <Lab_A.Nodo.Node object at 0x7fb088209fa0>
+	<Lab_A.Nodo.Node object at 0x7fc0882e9fa0> [label=a]
+	<Lab_A.Nodo.Node object at 0x7fc0882e9f10> [label=b]
+	<Lab_A.Nodo.Node object at 0x7fc0884958b0> [label="|"]
+	<Lab_A.Nodo.Node object at 0x7fc0884958b0> -> <Lab_A.Nodo.Node object at 0x7fc0882e9fa0>
+	<Lab_A.Nodo.Node object at 0x7fc0884958b0> -> <Lab_A.Nodo.Node object at 0x7fc0882e9f10>
+	<Lab_A.Nodo.Node object at 0x7fc088495940> [label="*"]
+	<Lab_A.Nodo.Node object at 0x7fc088495940> -> <Lab_A.Nodo.Node object at 0x7fc0884958b0>
+	<Lab_A.Nodo.Node object at 0x7fc0884959a0> [label=1]
+	<Lab_A.Nodo.Node object at 0x7fc088495a00> [label="."]
+	<Lab_A.Nodo.Node object at 0x7fc088495a00> -> <Lab_A.Nodo.Node object at 0x7fc088495940>
+	<Lab_A.Nodo.Node object at 0x7fc088495a00> -> <Lab_A.Nodo.Node object at 0x7fc0884959a0>
+	<Lab_A.Nodo.Node object at 0x7fc088495a60> [label=r]
+	<Lab_A.Nodo.Node object at 0x7fc088495ac0> [label="."]
+	<Lab_A.Nodo.Node object at 0x7fc088495ac0> -> <Lab_A.Nodo.Node object at 0x7fc088495a00>
+	<Lab_A.Nodo.Node object at 0x7fc088495ac0> -> <Lab_A.Nodo.Node object at 0x7fc088495a60>
+	<Lab_A.Nodo.Node object at 0x7fc088495b20> [label=c]
+	<Lab_A.Nodo.Node object at 0x7fc088495b80> [label="."]
+	<Lab_A.Nodo.Node object at 0x7fc088495b80> -> <Lab_A.Nodo.Node object at 0x7fc088495ac0>
+	<Lab_A.Nodo.Node object at 0x7fc088495b80> -> <Lab_A.Nodo.Node object at 0x7fc088495b20>
 }
