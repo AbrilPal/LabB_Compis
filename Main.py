@@ -49,4 +49,4 @@ else:
     print(afd.procesar_cadena("bbabb"))
     afd.print_transiciones()
     afd_grafica = graficar_AFD(afd)
-    afd_grafica.render('afd.gv', view=True)
+    afd_grafica.render('afd', view=True)

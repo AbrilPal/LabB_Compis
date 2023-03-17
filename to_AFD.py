@@ -30,6 +30,10 @@ class AFD:
         return estado_actual in self.finales
     
     def print_transiciones(self):
+        print()
+        print("----------- AFD --------------")
+        print()
+        print("transiciones:\n")
         for estado in self.estados:
             print(f"Estado {estado.id}:")
             for simbolo, transicion in estado.transiciones.items():
