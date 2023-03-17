@@ -10,6 +10,7 @@
 from Lab_A.Arbol import *
 from Lab_A.Infix_a_Postfix import *
 from Lab_A.To_afn import *
+from to_AFD import *
 import sys
 
 abiertos = 0
@@ -41,6 +42,10 @@ else:
     print(afn)
     g = generar_grafo_AFN(afn)
     g.view()
-    print(obtener_alfabeto(afn))
+    a = obtener_alfabeto(afn)
 
     # AFD apartir de AFN
+    afd = AFD(None, None)
+    afd.construir_desde_afn(afn, a)
+    imprimir_afd(afd)
+    afd.match("bbabb")
