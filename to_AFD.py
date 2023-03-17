@@ -1,48 +1,16 @@
-from collections import deque
-from graphviz import Digraph
+import graphviz
 
-class Estado:
+class EstadoAFD:
     contador_ids = 0
-    def __init__(self):
-        self.id = Estado.contador_ids
-        Estado.contador_ids += 1
+
+    def __init__(self, estados_afn):
+        self.id = EstadoAFD.contador_ids
+        EstadoAFD.contador_ids += 1
+        self.estados_afn = estados_afn
         self.transiciones = {}
-        self.epsilon_transiciones = set()
-        self.final = False
 
     def add_transition(self, simbolo, estado):
-        if simbolo in self.transiciones:
-            if estado not in self.transiciones[simbolo]:
-                self.transiciones[simbolo].add(estado)
-        else:
-            self.transiciones[simbolo] = {estado}
-
-    def add_epsilon_transition(self, estado):
-        self.epsilon_transiciones.add(estado)
-
-    def get_transitions(self, simbolo):
-        return self.transiciones.get(simbolo, set())
-
-    def get_epsilon_transitions(self):
-        return self.epsilon_transiciones
-
-    def get_closure(self):
-        closure = set()
-        nodos = [self]
-        while nodos:
-            nodo = nodos.pop()
-            closure.add(nodo)
-            for estado in nodo.get_epsilon_transitions():
-                if estado not in closure:
-                    nodos.append(estado)
-        return list(closure)
-
-    def get_move(self, simbolo):
-        move = set()
-        for estado in self.get_closure():
-            for transicion in estado.get_transitions(simbolo):
-                move |= transicion.get_closure()
-        return move
+        self.transiciones[simbolo] = estado
 
     def __str__(self):
         return f"{self.id}"
@@ -51,86 +19,72 @@ class AFD:
     def __init__(self, inicial, finales):
         self.inicial = inicial
         self.finales = finales
-        self.estados = [inicial]
-        self.transiciones = {}
-
-    def add_estado(self, estado):
-        if estado not in self.estados:
-            self.estados.append(estado)
-
-    def add_transicion(self, origen, simbolo, destino):
-        print(destino, "destino")
-        self.transiciones[(origen, simbolo)] = destino
-
-    def get_destino(self, origen, simbolo):
-        return self.transiciones.get((origen, simbolo), None)
-
-    def construir_desde_afn(self, afn, alfabeto):
-        # Obtener el cierre-épsilon del estado inicial del AFN
-        cierre_inicial = afn.inicial.get_closure()
-        # Crear un estado inicial del AFD a partir del cierre-épsilon obtenido
-        inicial = Estado()
-        for est in cierre_inicial:
-            if est == afn.final:
-                inicial.final = True
-        self.inicial = inicial
-        self.estados = [inicial]
-
-        # Procesar los estados en la cola
-        cola = deque([inicial])
-        while cola:
-            est = cola.popleft()
-            # Obtener las transiciones del estado actual
-            for simbolo in alfabeto:
-                # Obtener el conjunto de estados alcanzados por el símbolo actual
-                conjunto = set()
-                for e in est.get_closure():
-                    conjunto |= e.get_transitions(simbolo)
-                # Si el conjunto obtenido no es vacío
-                if conjunto:
-                    # Obtener el cierre-épsilon del conjunto obtenido
-                    cierre = set()
-                    for e in conjunto:
-                        cierre |= e.get_closure()
-                    # Crear un nuevo estado para el conjunto obtenido si aún no ha sido creado
-                    nuevo_estado = None
-                    for e in self.estados:
-                        if e.get_closure() == cierre:
-                            nuevo_estado = e
-                            break
-                    if nuevo_estado is None:
-                        nuevo_estado = Estado()
-                        for e in cierre:
-                            if e in afn.final:
-                                nuevo_estado.final = True
-                        self.estados.append(nuevo_estado)
-                        cola.append(nuevo_estado)
-                    # Añadir la transición al AFD
-                    self.add_transicion(est, simbolo, nuevo_estado)
-
-    def match(self, cadena):
+        self.estados = set([inicial] + list(finales))
+    
+    def procesar_cadena(self, cadena):
         estado_actual = self.inicial
         for simbolo in cadena:
-            estado_actual = self.get_destino(estado_actual, simbolo)
-            if estado_actual is None:
+            if simbolo not in estado_actual.transiciones:
                 return False
-        return estado_actual.final
+            estado_actual = estado_actual.transiciones[simbolo]
+        return estado_actual in self.finales
     
-def imprimir_afd(afd):
-    g = Digraph('AFD')
-    estados_visitados = set()
-    # Agregar nodos y etiquetas para los estados finales
+    def print_transiciones(self):
+        for estado in self.estados:
+            print(f"Estado {estado.id}:")
+            for simbolo, transicion in estado.transiciones.items():
+                print(f"  {simbolo} -> {transicion.id}")
+
+
+def construir_AFD_desde_AFN(afn, alfabeto):
+    inicial = EstadoAFD(afn.inicial.get_closure())
+    estados_afd = {inicial}
+    nodos = [inicial]
+
+    while nodos:
+        estado_afd = nodos.pop()
+
+        for simbolo in alfabeto:
+            estados_afn_transicion = set()
+
+            for estado_afn in estado_afd.estados_afn:
+                estados_afn_transicion |= estado_afn.get_transitions(simbolo)
+
+            estados_afn_transicion_closure = set()
+            for estado_afn_transicion in estados_afn_transicion:
+                estados_afn_transicion_closure |= set(estado_afn_transicion.get_closure())
+
+            nuevo_estado_afd = None
+            for estado_afd_existente in estados_afd:
+                if estado_afd_existente.estados_afn == estados_afn_transicion_closure:
+                    nuevo_estado_afd = estado_afd_existente
+                    break
+
+            if nuevo_estado_afd is None:
+                nuevo_estado_afd = EstadoAFD(estados_afn_transicion_closure)
+                estados_afd.add(nuevo_estado_afd)
+                nodos.append(nuevo_estado_afd)
+
+            estado_afd.add_transition(simbolo, nuevo_estado_afd)
+
+    finales_afd = set()
+    for estado_afd in estados_afd:
+        for estado_afn in estado_afd.estados_afn:
+            if estado_afn == afn.final:
+                finales_afd.add(estado_afd)
+
+    return AFD(inicial, finales_afd)
+
+def graficar_AFD(afd):
+    dot = graphviz.Digraph()
+    dot.attr(rankdir='LR')
+    dot.node(str(afd.inicial.id), shape='point', color='blue')
     for estado in afd.estados:
-        if estado.final:
-            g.node(str(estado.id), shape='doublecircle')
-            estados_visitados.add(estado)
-    # Agregar nodos y etiquetas para los estados no finales
-    for estado in afd.estados:
-        if estado not in estados_visitados:
-            g.node(str(estado.id))
-    # Agregar transiciones
-    for origen, simbolo in afd.transiciones:
-        destino = afd.transiciones[(origen, simbolo)]
-        g.edge(str(origen.id), str(destino.id), label=simbolo)
-    print(g)
+        dot.node(str(estado.id), shape='doublecircle' if estado in afd.finales else 'circle', 
+                 peripheries='2' if estado in afd.finales else '1', 
+                 style='bold' if estado in afd.finales else '', 
+                 color='red' if estado in afd.finales else 'blue' if estado == afd.inicial else 'black')
+        for simbolo, transicion in estado.transiciones.items():
+            dot.edge(str(estado.id), str(transicion.id), label=simbolo)
+    return dot
 

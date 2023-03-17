@@ -1,0 +1,10 @@
+digraph {
+	rankdir=LR
+	0 [color=blue shape=point]
+	4 [color=red peripheries=2 shape=doublecircle style=bold]
+	4 -> 1 [label=b]
+	4 -> 2 [label=a]
+	0 [color=blue peripheries=1 shape=circle style=""]
+	0 -> 1 [label=b]
+	0 -> 2 [label=a]
+}

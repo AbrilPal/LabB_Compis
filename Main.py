@@ -45,7 +45,8 @@ else:
     a = obtener_alfabeto(afn)
 
     # AFD apartir de AFN
-    afd = AFD(None, None)
-    afd.construir_desde_afn(afn, a)
-    imprimir_afd(afd)
-    afd.match("bbabb")
+    afd = construir_AFD_desde_AFN(afn, obtener_alfabeto(afn))
+    print(afd.procesar_cadena("bbabb"))
+    afd.print_transiciones()
+    afd_grafica = graficar_AFD(afd)
+    afd_grafica.render('afd.gv', view=True)
