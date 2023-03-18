@@ -1,3 +1,13 @@
+"""
+    Andrea Abril Palencia Gutierrez, 18198
+    Diseño de Lenguajes de Programacion
+    18 de marzo del 2023
+
+    AFD: este archivo crea el AFD a partir del AFN, esto lo hace con el
+    algoritmo de construccion de subconjuntos. Ademas minimiza el AFD que 
+    se genera.
+"""
+
 import graphviz
 
 class EstadoAFD:
@@ -57,7 +67,7 @@ class AFD:
     
     def print_transiciones(self):
         print()
-        print("----------- AFD --------------")
+        print("----------- AFD SUBCONJUNTOS --------------")
         print()
         print("transiciones:\n")
         for estado in self.estados:

@@ -11,6 +11,7 @@ from Lab_A.Arbol import *
 from Lab_A.Infix_a_Postfix import *
 from Lab_A.To_afn import *
 from to_AFD import *
+from to_AFD_direct import *
 import sys
 
 abiertos = 0
@@ -42,13 +43,21 @@ else:
     print(afn)
     g = generar_grafo_AFN(afn)
     g.view()
-    a = obtener_alfabeto(afn)
+    # a = obtener_alfabeto(afn)
 
     # AFD apartir de AFN
-    afd = construir_AFD_desde_AFN(afn, obtener_alfabeto(afn))
-    print(afd.procesar_cadena("bbabb"))
-    afd.print_transiciones()
-    afd_grafica = graficar_AFD(afd)
-    afd_grafica.render('afd', view=True)
-    afd_mini = afd.minimizar(a)
-    afd_mini.print_transiciones()
+    # afd = construir_AFD_desde_AFN(afn, a)
+    # afd.print_transiciones()
+    # afd_grafica = graficar_AFD(afd)
+    # afd_grafica.render('afd', view=True)
+    # afd_mini = afd.minimizar(a)
+    # afd_mini.print_transiciones()
+
+    # AFD directo
+    afdd = construir_afd(expresion_regular_nuevo, tree)
+    for estado in afdd['estados']:
+        print(f"Estado {estado.id_estado}")
+        for transicion in estado.transiciones:
+            print(f"  {transicion[0]} -> {transicion[1].id_estado}")
+        if estado in afdd['finales']:
+            print("  (final)")

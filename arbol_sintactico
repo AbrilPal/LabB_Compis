@@ -1,32 +1,20 @@
 // Árbol sintáctico
 digraph {
-	<Lab_A.Nodo.Node object at 0x7fe25008b970> [label=a]
-	<Lab_A.Nodo.Node object at 0x7fe25008b910> [label=b]
-	<Lab_A.Nodo.Node object at 0x7fe25031af40> [label="|"]
-	<Lab_A.Nodo.Node object at 0x7fe25031af40> -> <Lab_A.Nodo.Node object at 0x7fe25008b970>
-	<Lab_A.Nodo.Node object at 0x7fe25031af40> -> <Lab_A.Nodo.Node object at 0x7fe25008b910>
-	<Lab_A.Nodo.Node object at 0x7fe25032a040> [label="*"]
-	<Lab_A.Nodo.Node object at 0x7fe25032a040> -> <Lab_A.Nodo.Node object at 0x7fe25031af40>
-	<Lab_A.Nodo.Node object at 0x7fe25032a0a0> [label=b]
-	<Lab_A.Nodo.Node object at 0x7fe25032a100> [label=a]
-	<Lab_A.Nodo.Node object at 0x7fe25032a160> [label="|"]
-	<Lab_A.Nodo.Node object at 0x7fe25032a160> -> <Lab_A.Nodo.Node object at 0x7fe25032a0a0>
-	<Lab_A.Nodo.Node object at 0x7fe25032a160> -> <Lab_A.Nodo.Node object at 0x7fe25032a100>
-	<Lab_A.Nodo.Node object at 0x7fe25032a1c0> [label="*"]
-	<Lab_A.Nodo.Node object at 0x7fe25032a1c0> -> <Lab_A.Nodo.Node object at 0x7fe25032a160>
-	<Lab_A.Nodo.Node object at 0x7fe25032a220> [label="."]
-	<Lab_A.Nodo.Node object at 0x7fe25032a220> -> <Lab_A.Nodo.Node object at 0x7fe25032a040>
-	<Lab_A.Nodo.Node object at 0x7fe25032a220> -> <Lab_A.Nodo.Node object at 0x7fe25032a1c0>
-	<Lab_A.Nodo.Node object at 0x7fe25032a280> [label=a]
-	<Lab_A.Nodo.Node object at 0x7fe25032a2e0> [label="."]
-	<Lab_A.Nodo.Node object at 0x7fe25032a2e0> -> <Lab_A.Nodo.Node object at 0x7fe25032a220>
-	<Lab_A.Nodo.Node object at 0x7fe25032a2e0> -> <Lab_A.Nodo.Node object at 0x7fe25032a280>
-	<Lab_A.Nodo.Node object at 0x7fe25032a340> [label=b]
-	<Lab_A.Nodo.Node object at 0x7fe25032a3a0> [label="."]
-	<Lab_A.Nodo.Node object at 0x7fe25032a3a0> -> <Lab_A.Nodo.Node object at 0x7fe25032a2e0>
-	<Lab_A.Nodo.Node object at 0x7fe25032a3a0> -> <Lab_A.Nodo.Node object at 0x7fe25032a340>
-	<Lab_A.Nodo.Node object at 0x7fe25032a400> [label=b]
-	<Lab_A.Nodo.Node object at 0x7fe25032a460> [label="."]
-	<Lab_A.Nodo.Node object at 0x7fe25032a460> -> <Lab_A.Nodo.Node object at 0x7fe25032a3a0>
-	<Lab_A.Nodo.Node object at 0x7fe25032a460> -> <Lab_A.Nodo.Node object at 0x7fe25032a400>
+	<Lab_A.Nodo.Node object at 0x7fc32008b9a0> [label=a]
+	<Lab_A.Nodo.Node object at 0x7fc32008b910> [label=b]
+	<Lab_A.Nodo.Node object at 0x7fc3303280d0> [label="*"]
+	<Lab_A.Nodo.Node object at 0x7fc3303280d0> -> <Lab_A.Nodo.Node object at 0x7fc32008b910>
+	<Lab_A.Nodo.Node object at 0x7fc330328370> [label="."]
+	<Lab_A.Nodo.Node object at 0x7fc330328370> -> <Lab_A.Nodo.Node object at 0x7fc32008b9a0>
+	<Lab_A.Nodo.Node object at 0x7fc330328370> -> <Lab_A.Nodo.Node object at 0x7fc3303280d0>
+	<Lab_A.Nodo.Node object at 0x7fc3303283d0> [label=a]
+	<Lab_A.Nodo.Node object at 0x7fc330328430> [label="."]
+	<Lab_A.Nodo.Node object at 0x7fc330328430> -> <Lab_A.Nodo.Node object at 0x7fc330328370>
+	<Lab_A.Nodo.Node object at 0x7fc330328430> -> <Lab_A.Nodo.Node object at 0x7fc3303283d0>
+	<Lab_A.Nodo.Node object at 0x7fc330328490> [label=b]
+	<Lab_A.Nodo.Node object at 0x7fc3303284f0> [label="*"]
+	<Lab_A.Nodo.Node object at 0x7fc3303284f0> -> <Lab_A.Nodo.Node object at 0x7fc330328490>
+	<Lab_A.Nodo.Node object at 0x7fc330328550> [label="."]
+	<Lab_A.Nodo.Node object at 0x7fc330328550> -> <Lab_A.Nodo.Node object at 0x7fc330328430>
+	<Lab_A.Nodo.Node object at 0x7fc330328550> -> <Lab_A.Nodo.Node object at 0x7fc3303284f0>
 }
