@@ -14,6 +14,32 @@ class EstadoAFD:
 
     def __str__(self):
         return f"{self.id}"
+    
+class AFDM:
+    def __init__(self, inicial, finales, transiciones):
+        self.inicial = inicial
+        self.finales = finales
+        self.estados = set([inicial] + list(finales))
+        self.transiciones = transiciones
+    
+    def procesar_cadena(self, cadena):
+        estado_actual = self.inicial
+        for simbolo in cadena:
+            if simbolo not in estado_actual.transiciones:
+                return False
+            estado_actual = estado_actual.transiciones[simbolo]
+        return estado_actual in self.finales
+    
+    def print_transiciones(self):
+        print()
+        print("----------- AFD MINIMIZADO --------------")
+        print()
+        print("transiciones:\n")
+        for estado in self.estados:
+            print(f"Estado {estado.id}:")
+            for simbolo, transicion in estado.transiciones.items():
+                print(f"  {simbolo} -> {transicion.id}")
+
 
 class AFD:
     def __init__(self, inicial, finales):
@@ -38,6 +64,67 @@ class AFD:
             print(f"Estado {estado.id}:")
             for simbolo, transicion in estado.transiciones.items():
                 print(f"  {simbolo} -> {transicion.id}")
+
+    def minimizar(self, alfabeto):
+        # Partition the states into two sets: final and non-final
+        P = [self.finales, self.estados - self.finales]
+        
+        # Initialize the set of active partitions and the worklist
+        W = [self.finales, self.estados - self.finales]
+        active = set([0])
+        
+        # Initialize the equivalence classes for each state
+        classes = {}
+        for i, partition in enumerate(P):
+            for estado in partition:
+                classes[estado] = i
+        
+        # Repeat until the worklist is empty
+        while active:
+            A = active.pop()
+            for simbolo in alfabeto:
+                X = set()
+                for estado in P[A]:
+                    X.add(estado.transiciones[simbolo])
+                for i, partition in enumerate(P):
+                    Y = partition.intersection(X)
+                    Z = partition - X
+                    if Y and Z:
+                        P.remove(partition)
+                        P.append(Y)
+                        P.append(Z)
+                        if i in active:
+                            active.remove(i)
+                            active.add(len(P)-2)
+                            active.add(len(P)-1)
+                        else:
+                            if len(Y) <= len(Z):
+                                active.add(len(P)-2)
+                            else:
+                                active.add(len(P)-1)
+                        for estado in Y:
+                            classes[estado] = len(P)-2
+                        for estado in Z:
+                            classes[estado] = len(P)-1
+        
+        # Construct the new minimized DFA
+        new_estados = set()
+        new_inicial = None
+        new_finales = set()
+        new_transiciones = {}
+        for i, partition in enumerate(P):
+            new_estado = EstadoAFD(partition)
+            new_estados.add(new_estado)
+            if self.inicial in partition:
+                new_inicial = new_estado
+            if partition & self.finales:
+                new_finales.add(new_estado)
+            for estado in partition:
+                for simbolo, transicion in estado.transiciones.items():
+                    if transicion in partition:
+                        new_transiciones[(new_estado, simbolo)] = new_estado if transicion == estado else next((e for e in new_estados if transicion in e.estados_afn), None)
+        
+        return AFDM(new_inicial, new_finales, new_transiciones)
 
 
 def construir_AFD_desde_AFN(afn, alfabeto):

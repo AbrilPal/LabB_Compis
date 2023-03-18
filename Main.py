@@ -50,3 +50,5 @@ else:
     afd.print_transiciones()
     afd_grafica = graficar_AFD(afd)
     afd_grafica.render('afd', view=True)
+    afd_mini = afd.minimizar(a)
+    afd_mini.print_transiciones()
